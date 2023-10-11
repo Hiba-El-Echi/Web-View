@@ -14,14 +14,27 @@
       <van-search v-model="value" placeholder="Identifiant" />
     </div>
     <div class="favorites-list" v-for="favorite in favorites" :key="favorite">
-      <div class="favorite-list-item">
-        <img src="./../assets/img/contact.svg" />
-        <div class="item-element">
-          <span>{{ favorite.name }}</span> <br>
-          <span>{{ favorite.number }}</span>
+      <van-swipe-cell>
+        <div class="favorite-list-item">
+          <img src="./../assets/img/contact.svg" />
+          <div class="item-element">
+            <span class="name">{{ favorite.name }}</span>
+            <br />
+            <span class="number">{{ favorite.number }}</span>
+          </div>
         </div>
-      </div>
-      <hr>
+        <template #right>
+          <img src="./../assets/img/delete.svg" />
+          <!-- <van-button
+            square
+            text="Delete"
+            type="danger"
+            class="delete-button"
+          /> -->
+        </template>
+
+        <hr />
+      </van-swipe-cell>
     </div>
   </div>
 </template>
@@ -69,8 +82,24 @@ let favorites = ref([
       gap: 20px;
       align-items: center;
       height: 56px;
-      .item-element{
-      
+      .item-element {
+        .name {
+          color: #000;
+
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          letter-spacing: 0.563px;
+        }
+        .number {
+          color: #000;
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          letter-spacing: 0.25px;
+        }
       }
     }
   }
