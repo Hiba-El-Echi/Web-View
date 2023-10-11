@@ -1,15 +1,5 @@
 <template>
  <div class="container">
-   <!-- <div class="header">
-     <div class="arrow">
-       <nuxt-link>
-         <img src="./assets/img/back-icon.svg" />
-       </nuxt-link>
-     </div>
-     <div>
-       <span class="text-num">Numéros Favoris</span>
-     </div>
-   </div> -->
    <div class="contacts-container">
      <div>
        <span class="text">

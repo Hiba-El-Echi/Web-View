@@ -13,9 +13,10 @@
 <style  lang="scss" scoped>
  .header {
    display: flex;
-   gap: 10px;
+   gap: 20px;
    line-height: 20px;
    margin-top: 30px;
+   padding : 16px;
    .arrow {
      align-content: center;
    }
