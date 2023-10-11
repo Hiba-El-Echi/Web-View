@@ -88,10 +88,12 @@ const getContactIcon = (contact) => {
       line-height: 28px;
     }
     .contact-list {
-      margin-top: 25px;
+    
       .contact-list-item {
         display: flex;
         gap: 20px;
+        align-items: center;
+        height: 56px;
       }
       .contact-icon {
         width: 40px;
