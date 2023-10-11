@@ -1,12 +1,33 @@
 <template>
- <div>
-  <nuxt-link >
-   <img src="@assets/img/back-icon">
-  </nuxt-link>
-<h6>Numéros Favoris</h6>
-<nuxt />
-
-
-</div>
+  <div class="header">
+     <div class="arrow">
+       <nuxt-link>
+         <img src="./../assets/img/back-icon.svg" />
+       </nuxt-link>
+     </div>
+     <div>
+       <span class="text-num">Numéros Favoris</span>
+     </div>
+   </div>
 </template>
+<style  lang="scss" scoped>
+ .header {
+   display: flex;
+   gap: 20px;
+   line-height: 20px;
+   margin-top: 30px;
+   padding : 16px;
+   .arrow {
+     align-content: center;
+   }
+   .text-num {
+     color: #000;
+     font-size: 18px;
+     font-style: normal;
+     font-weight: 700;
+     line-height: 20px; 
+     letter-spacing: 0.25px;
+   }
+ }
+</style>
 
