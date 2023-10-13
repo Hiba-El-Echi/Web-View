@@ -6,15 +6,24 @@
       </span>
       <br />
       <span class="number">
-        <span class="num">4/5</span>
+        <span class="num">{{ favorites.length }} /5</span>
         numéros favoris
       </span>
     </div>
     <div class="search-container">
       <van-search v-model="value" placeholder="Identifiant" />
     </div>
-    <div class="favorites-list" v-for="favorite in favorites" :key="favorite">
-      <van-swipe-cell>
+    <div
+      class="favorites-list"
+      v-for="favorite in favorites"
+      :key="favorite.id"
+    >
+      <van-swipe-cell :right-width="80">
+        <template #left>
+          <div class="modif-img">
+            <img src="./../assets/img/modif.svg" />
+          </div>
+        </template>
         <div class="favorite-list-item">
           <img src="./../assets/img/contact.svg" />
           <div class="item-element">
@@ -24,27 +33,31 @@
           </div>
         </div>
         <template #right>
-          <img src="./../assets/img/delete.svg" />
-          <!-- <van-button
-            square
-            text="Delete"
-            type="danger"
-            class="delete-button"
-          /> -->
+          <div class="delete-img" @click="deleteFavorite(favorite.id)">
+            <img src="./../assets/img/delete.svg" />
+          </div>
         </template>
-
-        <hr />
       </van-swipe-cell>
+      <hr class="line" />
     </div>
   </div>
 </template>
 <script setup>
 let value = ref('')
 let favorites = ref([
-  { name: 'Maman', number: '5656726768' },
-  { name: 'Travail', number: '565676636768' },
-  { name: 'Maison', number: '544676636768' },
+  { id: '1', name: 'Maman', number: '5656726768' },
+  { id: '2', name: 'Travail', number: '565676636768' },
+  { id: '3', name: 'Maison', number: '544676636768' },
 ])
+
+const deleteFavorite = (favoriteId) => {
+  const index = favorites.value.findIndex(
+    (favorite) => favorite.id === favoriteId,
+  )
+  if (index !== -1) {
+    favorites.value.splice(index, 1)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -77,15 +90,17 @@ let favorites = ref([
   }
 
   .favorites-list {
+    .line {
+      margin: 0px;
+    }
     .favorite-list-item {
       display: flex;
       gap: 20px;
       align-items: center;
-      height: 56px;
+      height: 65px;
       .item-element {
         .name {
           color: #000;
-
           font-size: 14px;
           font-style: normal;
           font-weight: 500;
@@ -101,6 +116,22 @@ let favorites = ref([
           letter-spacing: 0.25px;
         }
       }
+    }
+    .delete-img {
+      background-color: #000;
+      height: 100%;
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modif-img {
+      background-color: #f16e00;
+      height: 100%;
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }
