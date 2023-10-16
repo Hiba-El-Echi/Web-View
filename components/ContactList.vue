@@ -21,17 +21,26 @@
 
       <ul
         class="contact-list"
-        v-for="(contact) in filteredContacts"
+        v-for="contact in filteredContacts"
         :key="contact.id"
         @click="selectContact(contact)"
-          :class="{ 'selected': contact.selected }"
+        :class="{ selected: contact.selected }"
       >
         <li class="contact-list-item">
           <span class="contact-icon">
             {{ getContactIcon(contact.name) }}
           </span>
           <span class="contact">
-            {{ contact.name }}
+            <van-cell  :title="contact.name" @click="show = true" />
+            <van-action-sheet
+              v-model:show="show"
+              :actions="actions"
+              @select="onSelect"
+              description="Choisir un numéro"
+              close-on-click-action
+            >
+            
+          </van-action-sheet>
           </span>
         </li>
       </ul>
@@ -50,7 +59,7 @@ let contacts = ref([
   { id: 1, name: 'Adjoua Bakayoka', selected: false },
   { id: 2, name: 'Affoue Dembele', selected: false },
   { id: 3, name: 'Hiba el echi', selected: false },
-]);
+])
 
 let isDisabled = ref(true)
 let filteredContacts = computed(() => {
@@ -73,13 +82,23 @@ let getContactIcon = (contact) => {
   return initials
 }
 let selectContact = (selectedContact) => {
-  selectedContact.selected = !selectedContact.selected;
-  isDisabled.value = contacts.value.filter(contact => contact.selected).length === 0;
+  selectedContact.selected = !selectedContact.selected
+  isDisabled.value =
+    contacts.value.filter((contact) => contact.selected).length === 0
+}
+const show = ref(false)
+const actions = [
+  { name: '5665656566' },
+  { name: '6767676777' },
+  { name: '6656666666' },
+]
+const onSelect = (item) => {
+  show.value = false
+  showToast(item.name)
 }
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   margin: 20px;
 
@@ -109,9 +128,9 @@ let selectContact = (selectedContact) => {
         align-items: center;
         height: 56px;
       }
-      .selected{
+      .selected {
         background-color: #ababab;
-        color:red
+        color: red;
       }
       .contact-icon {
         width: 40px;
