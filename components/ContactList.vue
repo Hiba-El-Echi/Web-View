@@ -31,21 +31,47 @@
             {{ getContactIcon(contact.name) }}
           </span>
           <span class="contact">
-            <van-cell  :title="contact.name" @click="show = true" />
+            <van-cell :title="contact.name" @click="show = true" />
             <van-action-sheet
               v-model:show="show"
               :actions="actions"
               @select="onSelect"
               description="Choisir un numéro"
               close-on-click-action
-            >
-            
-          </van-action-sheet>
+            ></van-action-sheet>
           </span>
         </li>
       </ul>
-      <div class="button-container">
-        <van-button :disabled="isDisabled" class="button">
+
+      <div class="button-container" v-if="filteredContacts.length === 0">
+        <van-button class="add-button" @click="show = true">
+          Ajouter le numéro
+        </van-button>
+        <van-action-sheet v-model:show="show" title="Ajouter le nom du contact">
+          <div class="content">
+            <van-field
+              v-model="numberInput"
+              label="N° de téléphone"
+              label-align="top"
+              placeholder="Entrer un numéro *"
+            />
+            <van-field
+              v-model="name"
+              label="Nom ou Prénom"
+              label-align="top"
+              placeholder="Entrer un nom *"
+            />
+            <van-button class="add-button">
+              Ajouter le numéro
+            </van-button>
+            <van-button class="cancel-button">
+              Annuler
+            </van-button>
+          </div>
+        </van-action-sheet>
+      </div>
+      <div class="button-container" v-else>
+        <van-button :disabled="isDisabled" class="add-button">
           Ajouter le numéro
         </van-button>
       </div>
@@ -55,6 +81,8 @@
 
 <script setup>
 let input = ref('')
+let numberInput = ref('')
+let name = ref('')
 let contacts = ref([
   { id: 1, name: 'Adjoua Bakayoka', selected: false },
   { id: 2, name: 'Affoue Dembele', selected: false },
@@ -130,7 +158,6 @@ const onSelect = (item) => {
       }
       .selected {
         background-color: #ababab;
-        color: red;
       }
       .contact-icon {
         width: 40px;
@@ -144,7 +171,7 @@ const onSelect = (item) => {
         font-size: 16px;
         font-style: normal;
         font-weight: 500;
-        line-height: 24px; /* 150% */
+        line-height: 24px;
         letter-spacing: 0.15px;
       }
       .contact {
@@ -153,7 +180,7 @@ const onSelect = (item) => {
     }
     .button-container {
       margin-top: 30px;
-      .button {
+      .add-button {
         width: 100%;
         background-color: #f16e00;
         color: #fff;
@@ -170,6 +197,26 @@ const onSelect = (item) => {
         background-color: #cccccc;
         color: #ababab;
       }
+      .cancel-button {
+        width: 100%;
+        background-color: #fff;
+        color: #1c1b1f;
+        border-radius: 4px, #000;
+        text-align: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 16px;
+        letter-spacing: 1.25px;
+        text-transform: uppercase;
+      }
+      .content {
+        height: 365px;
+        margin: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
     }
   }
 
@@ -179,6 +226,11 @@ const onSelect = (item) => {
     font-size: 1rem;
     line-height: 24px;
     letter-spacing: 0.5px;
+  }
+  :deep(.van-action-sheet__header) {
+    display: flex;
+    justify-content: flex-start;
+    margin: 16px;
   }
 
   :deep(.van-field--label-top) {
