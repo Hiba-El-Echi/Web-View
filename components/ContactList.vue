@@ -19,41 +19,51 @@
         <span>Contacts</span>
       </div>
 
-      <div
+      <ul
         class="contact-list"
-        v-for="contact in filteredContacts"
-        :key="contact"
+        v-for="(contact) in filteredContacts"
+        :key="contact.id"
+        @click="selectContact(contact)"
+          :class="{ 'selected': contact.selected }"
       >
-        <div class="contact-list-item">
+        <li class="contact-list-item">
           <span class="contact-icon">
-            {{ getContactIcon(contact) }}
+            {{ getContactIcon(contact.name) }}
           </span>
           <span class="contact">
-            {{ contact }}
+            {{ contact.name }}
           </span>
-        </div>
-      </div>
+        </li>
+      </ul>
       <div class="button-container">
-        <van-button class="button">Ajouter le numéro</van-button>
+        <van-button :disabled="isDisabled" class="button">
+          Ajouter le numéro
+        </van-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-const input = ref('')
-const contacts = ref(['Adjoua Bakayoka', 'Affoue Dembele', 'Hiba el echi'])
-const filteredContacts = computed(() => {
+let input = ref('')
+let contacts = ref([
+  { id: 1, name: 'Adjoua Bakayoka', selected: false },
+  { id: 2, name: 'Affoue Dembele', selected: false },
+  { id: 3, name: 'Hiba el echi', selected: false },
+]);
+
+let isDisabled = ref(true)
+let filteredContacts = computed(() => {
   const searchTerm = input.value.trim().toLowerCase()
   if (!searchTerm) {
     return contacts.value
   } else {
     return contacts.value.filter((contact) =>
-      contact.toLowerCase().includes(searchTerm),
+      contact.name.toLowerCase().includes(searchTerm),
     )
   }
 })
-const getContactIcon = (contact) => {
+let getContactIcon = (contact) => {
   const initials = contact
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase())
@@ -62,9 +72,14 @@ const getContactIcon = (contact) => {
 
   return initials
 }
+let selectContact = (selectedContact) => {
+  selectedContact.selected = !selectedContact.selected;
+  isDisabled.value = contacts.value.filter(contact => contact.selected).length === 0;
+}
 </script>
 
 <style lang="scss" scoped>
+
 .container {
   margin: 20px;
 
@@ -88,12 +103,15 @@ const getContactIcon = (contact) => {
       line-height: 28px;
     }
     .contact-list {
-    
       .contact-list-item {
         display: flex;
         gap: 20px;
         align-items: center;
         height: 56px;
+      }
+      .selected{
+        background-color: #ababab;
+        color:red
       }
       .contact-icon {
         width: 40px;
@@ -127,6 +145,11 @@ const getContactIcon = (contact) => {
         line-height: 16px;
         letter-spacing: 1.25px;
         text-transform: uppercase;
+      }
+      .button:disabled {
+        cursor: not-allowed;
+        background-color: #cccccc;
+        color: #ababab;
       }
     }
   }

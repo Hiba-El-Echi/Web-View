@@ -40,6 +40,9 @@
       </van-swipe-cell>
       <hr class="line" />
     </div>
+    <div class="add-button">
+      <add-button ></add-button>
+    </div>
   </div>
 </template>
 <script setup>
@@ -134,5 +137,6 @@ const deleteFavorite = (favoriteId) => {
       justify-content: center;
     }
   }
+
 }
 </style>
