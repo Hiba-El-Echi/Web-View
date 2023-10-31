@@ -33,25 +33,51 @@
           </div>
         </div>
         <template #right>
-          <div class="delete-img" @click="deleteFavorite(favorite.id)">
+          <div class="delete-img" @click="showDelete()">
             <img src="./../assets/img/delete.svg" />
           </div>
         </template>
       </van-swipe-cell>
+      <van-action-sheet v-model:show="show" title="">
+        <div class="content">
+          <div class="img-container">
+            <img src="../assets/img/delete-icon.svg" />
+          </div>
+          <div class="orange-text-container">
+            <span class="text">Supprimer le numéro favori</span>
+          </div>
+          <div class="delete-text-container">
+            <span class="text">
+              Voulez-vous supprimer 07 09 XX XX XX de votre liste des numéros
+              favoris ?
+            </span>
+          </div>
+          <van-button class="add-button" @click="deleteFavorite(favorite.id)">
+            Supprimer
+          </van-button>
+          <van-button class="cancel-button" @click="show = false">
+            Annuler
+          </van-button>
+        </div>
+      </van-action-sheet>
       <hr class="line" />
     </div>
     <div class="add-button">
-      <add-button ></add-button>
+      <add-button></add-button>
     </div>
   </div>
 </template>
 <script setup>
 let value = ref('')
+const show = ref(false)
 let favorites = ref([
   { id: '1', name: 'Maman', number: '5656726768' },
   { id: '2', name: 'Travail', number: '565676636768' },
   { id: '3', name: 'Maison', number: '544676636768' },
 ])
+const showDelete = () => {
+  show.value = true
+}
 
 const deleteFavorite = (favoriteId) => {
   const index = favorites.value.findIndex(
@@ -60,6 +86,7 @@ const deleteFavorite = (favoriteId) => {
   if (index !== -1) {
     favorites.value.splice(index, 1)
   }
+  show.value = false
 }
 </script>
 
@@ -93,6 +120,66 @@ const deleteFavorite = (favoriteId) => {
   }
 
   .favorites-list {
+    .content {
+      height: 425px;
+      margin: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-top: 60px;
+      .img-container {
+        display: flex;
+        justify-content: center;
+      }
+      .add-button {
+        width: 100%;
+        background-color: #f16e00;
+        color: #fff;
+        text-align: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 16px;
+        letter-spacing: 1.25px;
+        text-transform: uppercase;
+      }
+      .orange-text-container {
+        display: flex;
+        justify-content: center;
+        .text {
+          color: #f16e00;
+          text-align: center;
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 24px; /* 100% */
+          letter-spacing: 0.169px;
+        }
+      }
+      .delete-text-container {
+        text-align: center;
+        .text {
+          color: #000;
+          text-align: center;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 22px; /* 122.222% */
+        }
+      }
+
+      .cancel-button {
+        width: 100%;
+        background-color: #fff;
+        color: #1c1b1f;
+        border-radius: 4px, #000;
+        text-align: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 16px;
+        letter-spacing: 1.25px;
+        text-transform: uppercase;
+      }
+    }
     .line {
       margin: 0px;
     }
@@ -137,6 +224,5 @@ const deleteFavorite = (favoriteId) => {
       justify-content: center;
     }
   }
-
 }
 </style>
