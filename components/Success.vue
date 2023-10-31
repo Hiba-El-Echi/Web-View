@@ -65,5 +65,21 @@
       line-height: 22px;
     }
   }
+  .back-button-container{
+   margin-top:30px;
+   .back-button{
+    width: 100%;
+    background-color: #fff;
+    color: #1c1b1f;
+    border-radius: 4px, #000;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+   }
+  }
 }
 </style>
